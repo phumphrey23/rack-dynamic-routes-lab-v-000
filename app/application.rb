@@ -5,8 +5,11 @@ class Application
     req = Rack::Request.new(env)
 
     if req.path.match(/items/)
-      @@items.each do |item|
-        resp.write "#{item.price}\n"
+ 
+      item_name = req.path.split("/items/").last
+      item = @@items.find{|item| item.name == item_name}
+ 
+      resp.write item.price
       end
       resp.status = 200
     else
